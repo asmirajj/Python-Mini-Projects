@@ -1,0 +1,57 @@
+'''To create this game in Python, the computer generates a secret code and the user will have to guess the code. Break it down into these blocks:
+
+Generate a secret code- Generate a random 4-digit number and check that it does not have any repeated digits.
+Generate hint or response- Take the generated 4-digit secret number and the guessed number (input). Find the common digits with exact matches (bulls) and the common digits in the wrong position (cows). Repeat with each guess until you have 4 bulls (an exact match) or you run out of tries.
+Constraint: The secret code and the guessed code should be of 4-digits (between 1000 and 9999) and have no repeated numbers.'''
+
+import random 
+
+def get_digits(number): 
+    return [int(digit) for digit in str(number)] 
+
+def no_duplicates(number): 
+    digits = get_digits(number) 
+    return len(digits) == len(set(digits))
+
+def generate_number(): 
+    while True: 
+        num = random.randint(1000, 9999) 
+        if no_duplicates(num): 
+            return num 
+
+def num_of_bulls_cows(secret_num, guess_num): 
+    bulls_cows = [0, 0] 
+    secret_digits = get_digits(secret_num) 
+    guess_digits = get_digits(guess_num) 
+    
+    for i, digit in enumerate(guess_digits): 
+        if digit in secret_digits: 
+            if digit == secret_digits[i]: 
+                bulls_cows[0] += 1
+            else: 
+                bulls_cows[1] += 1
+                
+    return bulls_cows 
+
+secret_code = generate_number() 
+tries_left = int(input('Enter number of tries: ')) 
+
+while tries_left > 0: 
+    guess = int(input("Enter your guess: ")) 
+    
+    if not no_duplicates(guess): 
+        print("Your number should not have repeated digits. Please try again.") 
+        continue
+    if guess < 1000 or guess > 9999: 
+        print("Please enter a 4-digit number only. Try again.") 
+        continue
+    
+    bulls_cows = num_of_bulls_cows(secret_code, guess) 
+    print(f"{bulls_cows[0]} bulls, {bulls_cows[1]} cows") 
+    tries_left -= 1
+    
+    if bulls_cows[0] == 4: 
+        print("Congratulations! You guessed right!") 
+        break
+else: 
+    print(f"You've run out of tries. The number was {secret_code}")
