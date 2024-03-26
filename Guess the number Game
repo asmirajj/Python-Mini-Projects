@@ -1,0 +1,43 @@
+#Below is the code for guess the number game in python where user provides upper and lower limit integers and a random integer is chosen within that limit. The user then takes turns guessing the number!
+
+import random
+print("Welcome to number guessing game in python!\n")
+print("How to play the game: \nEnter two numbers (upper and lower limits) between which you will try to guess a number.\nYou  get maximum 5 tries to guess the number. Goodluck !!")
+def game():
+    print("\nPlease provide upper and lower limits between which you want to try guessing a number.")
+    upper_limit = int(input("Enter the upper limit: "))
+    lower_limit = int(input("Enter the lower limit: "))
+    while lower_limit>upper_limit:
+        print("The lower limit must be smaller than the upper limit. Try again.")
+        upper_limit = int(input("Enter the upper limit: "))
+        lower_limit = int(input("Enter the lower limit: "))
+    guess_num=random.randint(lower_limit,upper_limit)
+    x=int(input("Enter your first guess: "))
+    guess=0
+    if x == guess_num and x>lower_limit and x<upper_limit:
+        print("YOU GOT IT RIGHT ON THE FIRST TRY!! ")
+    else:
+        print("Oops! try again ...")
+        for i in range(2, 6):
+            x1 = int(input("Enter your guess: "))
+            if x1 in range(lower_limit,upper_limit):
+                if x1 == guess_num:
+                    print("That's right!! Congratulations on guessing the number correctly!!")
+                    guess = 1
+                else:
+                    print("Oops! try again ...")
+            else:
+                print("Number does not fall in the specified range.")
+
+    if guess==0:
+        print("Sorry , but you have reached the limit for guessing the number.")
+        find=str(input("Do you want to find out the mystery number? y/n "))
+        if find=="y":
+                 print("The number was ",guess_num," !!")
+        print("Better luck next time :)")
+
+game()
+play_more=str(input("Do you want to keep playing? y/n "))
+while play_more=="y":
+    game()
+    play_more=str(input("Do you want to keep playing? y/n "))
